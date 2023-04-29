@@ -3,27 +3,13 @@
 /* 
  * tags
  */
-
-a {
-	color: white;
-	text-decoration: none;
-	font-size: 30px;
-}
-
-a:hover {
-  color: black;
-  background-color: white;
-  padding: 40px 0px 40px 0px;
-}
-
 aside {
 	float: right;
 	margin-right: 30px;
 	margin-top: 18px;
-	width: 35%;
+	width: 25%;
 }
-
-h1 {
+h1{
 	display: inline;
 	position: relative;
 	bottom: 25px;
@@ -31,33 +17,113 @@ h1 {
 	font-size: 50px;
 }
 
-h2 {
-	font-size: 30px;
+nav {
+	width: 100%;
+	background-color: #023b70;
+	height: 80px;
 }
 
-footer {
+h2{
+	font-size: 30px;
+	text-align: center;
+	margin-top: 40px;
+}
+
+
+section {
+	background-color: #E5E4E2;
+	padding: 20px;
+}
+
+h3 {
+	text-align: center;
+	color: #6495ED;
+}
+
+
+footer{
 	background-color: black;
 	color: white;
 	text-align: center;
-	padding: 30px 0px 30px 0px;
+	padding: 15px 0px 15px 0px;
 }
 
 /* 
  * classes
  */
-
-.links ul li {
-	display: inline;
-	padding: 10px;
+ 
+.navbar ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	position: absolute;
 }
 
-.links {
-	background-color: #023b70;
-	padding: 20px;
+.navbar li {
+	float: left;
+	margin-top: 20px;
+}
+
+.navbar a {
+	width: 150px;
+	color: white;
+	display: block;
+	text-decoration: none;
+	font-size: 20px;
 	text-align: center;
-	word-spacing: 60px;
+	padding: 10px;
+	border-radius: 10px;
 }
 
+.navbar a:hover {
+	background-color: white;
+	color: black;
+}
+
+.navbar ul li ul {
+	background-color: #023b70;
+}
+
+.navbar ul li ul li {
+	float: none;
+}
+
+.navbar ul li ul {
+	display: none;
+}
+
+.navbar ul li:hover ul {
+	display: block;
+}
+
+.H { margin-left: 210px; }
+
+.heading {
+	text-align: center;
+	font-size: 40px;
+	margin-top: 70px;
+}
+
+.div3 {
+	margin: 35px 45px 40px 55px;
+	width: 85%;
+}
+
+.p3 {
+	margin-left: 50px;
+}
+
+.ul3 {
+	margin-left: 130px;
+}
+
+.p2 {
+	text-align: center;
+}
+
+.p3 {
+	text-align: center;
+}
 /* 
  * ids 
  */
@@ -65,131 +131,69 @@ footer {
 /* 
  * forms 
  */
-
-.rform{
-	width:800px;
-	background-color:(0,0,0,6);
-	margin:auto;
-	color: #FFFFFF;
-	padding: 10px 0px 10px 0px;
-	text-align:center;
-	border-radius:15px 15px 0px 0px;
-}
-.regform{
-	background-color: red;
-	width: 800px;
-	margin: auto;
-}
-form{
-	padding:10px;
-}
-#name{
-	width:100%;
-	height:100px;
-}
-.name{
-	margin-left:25px;
-	margin-top:30px;
-	width:125px;
-	color:white;
-	font-size:18px
-}
-.firstname{
-	position:relative;
-	left: 200px;
-	top:-37px;
-	line-height: 40px;
-	border-radius:6px;
-	padding:0 22px;
-	font-size:16px;
-}
-.lastname{
-	position:relative;
-	left: 417px;
-	top:-83px;
-	line-height: 40px;
-	border-radius:6px;
-	padding:0 22px
-	font-size:16px;
-	color: #555;
-}
-.firstlabel{
-	position:relative;
-	color: #E5E5E5E5;
-	text-transform: capitalize;
-	font-size: 14px;
-	left: 203px;
-	top: -45px;
-}
-.lastlabel{
-	position:relative;
-	color: #E5E5E5E5;
-	text-transform: capitalize;
-	font-size: 14px;
-	left: 492px;
-	top: -76px;
-}
-.occupation{
-	position:relative;
-	left: 200px;
-	top: -37px;
-	line-height:40px;
-	width:452px;
-	border-radius:6px;
-	font-size: 14px;
-	color: #555;
-	text-transform: capitalize;	
-}
-.email{
-	position:relative;
-	left: 200px;
-	top: -37px;
-	line-height:40px;
-	width:418px;
-	border-radius:6px;
-	padding: 0 22px;
-	font-size: 14px;
-	color: #555;
-	text-transform: capitalize;	
-}
-.code{
-	position:relative;
-	left: 200px;
-	top: -37px;
-	line-height:40px;
-	width:95px;
-	border-radius:6px;
-	padding: 0 22px;
-	font-size: 14px;
-	color: #555;
-}
-.number{
-	position:relative;
-	left: 300px;
-	top: -81px;
-	line-height:40px;
-	width:247px;
-	border-radius:6px;
-	padding: 0 22px;
-	font-size: 14px;
-	color: #555;	
-}
-.area-code{
-	position:relative;
-	color: #E5E5E5E5;
-	text-transform: capitalize;
-	font-size: 16px;
-	left:200px;
-	top:-45px;
-}
-.phone-number{
-	position:relative;
-	color: #E5E5E5E5;
-	text-transform: capitalize;
-	font-size: 16px;
-	left:390px;
-	top:-75px;
+ 
+input[type=text], input[type=email], input[type=date], input[type=select] {
+	margin: 5px;
+	padding: 10px;
+	width: 100%;
 }
 
+input[type=submit] {
+	/* margin: 0px 0px 15px 130px; */
+	padding: 10px;
+	width: 30%;
+}
 
+.registration-form { 
+	display: flex;
+	justify-content: center;
+	padding: 30px;
+}
+
+/* .registration-form form {  */
+	/* border: 2px solid black; */
+/* } */
+
+.registration-form label {
+	font-size: 1.2em;
+}
+
+/*
+ * rwd
+ */
+ 
+/* For mobile phones: */
+  [class*="col-"] {
+    width: 100%;}
+
+@media only screen and (min-width: 768px) {
+  /* For tablets: */
+  .col-s-1 {width: 8.33%;}
+  .col-s-2 {width: 16.66%;}
+  .col-s-3 {width: 25%;}
+  .col-s-4 {width: 33.33%;}
+  .col-s-5 {width: 41.66%;}
+  .col-s-6 {width: 50%;}
+  .col-s-7 {width: 58.33%;}
+  .col-s-8 {width: 66.66%;}
+  .col-s-9 {width: 75%;}
+  .col-s-10 {width: 83.33%;}
+  .col-s-11 {width: 91.66%;}
+  .col-s-12 {width: 100%;}
+}
+
+ @media only screen and (min-width: 900px) { 
+/* For desktop: */
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
 	
