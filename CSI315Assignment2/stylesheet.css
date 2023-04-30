@@ -1,0 +1,234 @@
+* { margin-left: 0; margin-right: 0; }
+
+/* 
+ * tags
+ */
+ body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+ 
+aside {
+	float: right;
+	margin-right: 30px;
+	margin-top: 18px;
+	width: 25%;
+}
+
+h1{
+	display: inline;
+	position: relative;
+	bottom: 25px;
+	color: #023b70;
+	font-size: 50px;
+}
+
+nav {
+	width: 100%;
+	background-color: #023b70;
+	height: 80px;
+}
+
+h2{
+	font-size: 30px;
+	text-align: center;
+	margin-top: 30px;
+}
+
+
+section {
+	background-color: #E5E4E2;
+	padding: 20px;
+}
+
+h3 {
+	text-align: center;
+	color: #6495ED;
+}
+
+
+footer{
+	background-color: black;
+	color: white;
+	text-align: center;
+	padding: 15px 0px 15px 0px;
+	margin-top: auto;
+}
+
+
+/* 
+ * classes
+ */
+ 
+.navbar ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	position: absolute;
+}
+
+.navbar li {
+	float: left;
+	margin-top: 20px;
+}
+
+.navbar a {
+	width: 150px;
+	color: white;
+	display: block;
+	text-decoration: none;
+	font-size: 20px;
+	text-align: center;
+	padding: 10px;
+	border-radius: 10px;
+}
+
+.navbar a:hover {
+	background-color: white;
+	color: black;
+}
+
+.navbar ul li ul {
+	background-color: #023b70;
+}
+
+.navbar ul li ul li {
+	float: none;
+}
+
+.navbar ul li ul {
+	display: none;
+}
+
+.navbar ul li:hover ul {
+	display: block;
+}
+
+.H { margin-left: 210px; }
+
+.heading {
+	text-align: center;
+	font-size: 40px;
+	margin-top: 70px;
+}
+
+.div3 {
+	margin: 35px 45px 60px 55px;
+	width: 85%;
+}
+
+.p3 {
+	margin-left: 50px;
+	text-align: center;
+}
+
+.ul3 {
+	margin-left: 130px;
+}
+
+.p2 {
+	text-align: center;
+}
+
+.sec {
+	background-color: #E5E4E2; 
+	padding: 65px;
+	float: none;
+}
+
+.clearfix {
+  overflow: auto;
+}
+
+.h4 {
+	width: 18%;
+	font-size: 25px;
+	border-bottom: 3px solid #6495ED;
+	margin-left: 10px;
+}
+
+.circular {
+	border-top-left-radius: 50% 50%; 
+	border-top-right-radius: 50% 50%; 
+	border-bottom-right-radius: 50% 50%; 
+	border-bottom-left-radius: 50% 50%; 
+}
+
+.ceo {
+	display: flex;
+	justify-content: center;
+	width: 70%;
+	margin-left: 170px;
+	padding: 50px;
+}
+
+.div3 {
+	font-size: 18px; 
+}
+
+.p6 {
+	width:40%;
+}
+
+/* 
+ * ids 
+ */
+#div1 {
+	width:33.33%;
+	float: right;
+	font-size: 20px;
+}
+
+#div2 {
+	width:33.33%;
+	float:left;
+	font-size: 20px;
+}
+
+#div3 {
+	width:33.33%;
+	margin: 0 auto;
+	font-size: 20px;
+}
+
+#img2 {
+	float: right;
+}
+
+#p5 {
+	float: right;
+	margin-left: 20px;
+	font-size: 20px;
+}
+
+/* 
+ * forms 
+ */
+ 
+input[type=text], input[type=email], input[type=date], input[type=select] {
+	margin: 5px;
+	padding: 10px;
+	width: 100%;
+}
+
+input[type=submit] {
+	/* margin: 0px 0px 15px 130px; */
+	padding: 10px;
+	width: 30%;
+}
+
+.registration-form { 
+	display: flex;
+	justify-content: center;
+	padding: 30px;
+}
+
+/* .registration-form form {  */
+	/* border: 2px solid black; */
+/* } */
+
+.registration-form label {
+	font-size: 1.2em;
+}
+
