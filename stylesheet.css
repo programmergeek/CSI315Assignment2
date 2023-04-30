@@ -3,12 +3,19 @@
 /* 
  * tags
  */
+ body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+ 
 aside {
 	float: right;
 	margin-right: 30px;
 	margin-top: 18px;
 	width: 25%;
 }
+
 h1{
 	display: inline;
 	position: relative;
@@ -26,7 +33,7 @@ nav {
 h2{
 	font-size: 30px;
 	text-align: center;
-	margin-top: 40px;
+	margin-top: 30px;
 }
 
 
@@ -46,7 +53,9 @@ footer{
 	color: white;
 	text-align: center;
 	padding: 15px 0px 15px 0px;
+	margin-top: auto;
 }
+
 
 /* 
  * classes
@@ -105,12 +114,13 @@ footer{
 }
 
 .div3 {
-	margin: 35px 45px 40px 55px;
+	margin: 35px 45px 60px 55px;
 	width: 85%;
 }
 
 .p3 {
 	margin-left: 50px;
+	text-align: center;
 }
 
 .ul3 {
@@ -121,12 +131,76 @@ footer{
 	text-align: center;
 }
 
-.p3 {
-	text-align: center;
+.sec {
+	background-color: #E5E4E2; 
+	padding: 65px;
+	float: none;
 }
+
+.clearfix {
+  overflow: auto;
+}
+
+.h4 {
+	width: 18%;
+	font-size: 25px;
+	border-bottom: 3px solid #6495ED;
+	margin-left: 10px;
+}
+
+.circular {
+	border-top-left-radius: 50% 50%; 
+	border-top-right-radius: 50% 50%; 
+	border-bottom-right-radius: 50% 50%; 
+	border-bottom-left-radius: 50% 50%; 
+}
+
+.ceo {
+	display: flex;
+	justify-content: center;
+	width: 70%;
+	margin-left: 170px;
+	padding: 50px;
+}
+
+.div3 {
+	font-size: 18px; 
+}
+
+.p6 {
+	width:40%;
+}
+
 /* 
  * ids 
  */
+#div1 {
+	width:33.33%;
+	float: right;
+	font-size: 20px;
+}
+
+#div2 {
+	width:33.33%;
+	float:left;
+	font-size: 20px;
+}
+
+#div3 {
+	width:33.33%;
+	margin: 0 auto;
+	font-size: 20px;
+}
+
+#img2 {
+	float: right;
+}
+
+#p5 {
+	float: right;
+	margin-left: 20px;
+	font-size: 20px;
+}
 
 /* 
  * forms 
@@ -158,42 +232,3 @@ input[type=submit] {
 	font-size: 1.2em;
 }
 
-/*
- * rwd
- */
- 
-/* For mobile phones: */
-  [class*="col-"] {
-    width: 100%;}
-
-@media only screen and (min-width: 768px) {
-  /* For tablets: */
-  .col-s-1 {width: 8.33%;}
-  .col-s-2 {width: 16.66%;}
-  .col-s-3 {width: 25%;}
-  .col-s-4 {width: 33.33%;}
-  .col-s-5 {width: 41.66%;}
-  .col-s-6 {width: 50%;}
-  .col-s-7 {width: 58.33%;}
-  .col-s-8 {width: 66.66%;}
-  .col-s-9 {width: 75%;}
-  .col-s-10 {width: 83.33%;}
-  .col-s-11 {width: 91.66%;}
-  .col-s-12 {width: 100%;}
-}
-
- @media only screen and (min-width: 900px) { 
-/* For desktop: */
-.col-1 {width: 8.33%;}
-.col-2 {width: 16.66%;}
-.col-3 {width: 25%;}
-.col-4 {width: 33.33%;}
-.col-5 {width: 41.66%;}
-.col-6 {width: 50%;}
-.col-7 {width: 58.33%;}
-.col-8 {width: 66.66%;}
-.col-9 {width: 75%;}
-.col-10 {width: 83.33%;}
-.col-11 {width: 91.66%;}
-.col-12 {width: 100%;}
-	
