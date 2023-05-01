@@ -68,30 +68,33 @@
 				</form>
 			</div>
 			<?php
-				$subjectName = subjectCode = "";
+				require "databaseHelperFunctions.php";
+				$subjectName = $subjectCode = "";
 
 				if ($_SERVER["REQUEST_METHOD"] == "POST")
 				{
 					$subjectName = $_POST["subject_name"];
 					$subjectCode = $_POST["subject_code"];
-
-					<!-- Function to clean and sanitize data -->
+					
+				// to clean and sanitize data 
 				function clean($field) {
 					$field = trim($field);
 					$field = stripslashes($field);
 					$field = htmlspecialchars($field);
 					return $field;
 					}
-					clean($subjectName);
-					clean($subjectCode);
 
-					<!-- Validating the data -->
+				$subjectName = clean($subjectName);
+				$subjectCode = clean($subjectCode);
+
+				// Validating the data 
 					if(preg_match('/[a-zA-Z]+/', $subjectName))
 					{
 						echo "SUbject name format is good";
 						}
 				   else{
 					   echo " Wrong format , It must only be letters";
+					   $hasError = true;
 					   }
 
 					   if(preg_match('/[a-zA-Z]+/', $subjectCode))
@@ -100,7 +103,24 @@
 						   }
 					  else{
 						  echo " Wrong format , It must only be letters";
+						  $hasError = true;
 						  }	   
+				}
+
+				if($hasError == false){
+					$conn = connectToDatabase(); // dbName, username and password needs to be defined in databaseHelperFunctions.php
+
+					$sql = $conn->prepare(createInserQuery(/*table name goes here*/, /*column names go here. should be an array e.g array("col-1", "col-2", "col-3")*/, 2));
+				
+					// check if the data types are correct
+					$sql->bind_param("ss", $subjectName, $subjectCode);
+					if($sql->execute()){
+						echo "insert sucess: subjects";
+					}else{
+						echo "Error: ". $sql->error();
+					}
+					$sql->close();
+					$conn->close();
 				}
 
 			?>

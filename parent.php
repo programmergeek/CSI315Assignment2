@@ -189,6 +189,8 @@
 			</div>
 			
 			<?php
+			require "databaseHelperFunctions.php";
+			$hasError = false;
 			$studentFullName = $studentEmail = $studentPhoneNo = $studentAge = $studentGender = $studentSubjects = "";
 
 				if ($_SERVER["REQUEST_METHOD"] == "POST")
@@ -206,21 +208,22 @@
 					$field = htmlspecialchars($field);
 					return $field;
 					}
-				<!-- cleaning the data -->
-				clean($studentFullName);
-				clean($studentEmail);
-				clean($studentPhoneNo);
-				clean($student_age);
-				clean($studentGender);
-				clean($studentSubjects);
+				// cleaning the data 
+				$studentFullName = clean($studentFullName);
+				$studentEmail = clean($studentEmail);
+				$studentPhoneNo = clean($studentPhoneNo);
+				$student_age = clean($student_age);
+				$studentGender = clean($studentGender);
+				$studentSubjects = clean($studentSubjects);
 
-				<!-- Validation of data  -->
+				// Validation of data  
 				if(preg_match('/[a-zA-Z]+/', $studentFullName))
 				{
 					echo "Student name formart is good";
 					}
 			   else{
 				   echo " Wrong format , It must only be letters";
+				   $hasError = true;
 				   }
 
 				if(filter_var($studentEmail, FILTER_VALIDATE_EMAIL)) 
@@ -229,6 +232,7 @@
 				}
 				else {
 					echo "Email is invalid, please try again";
+					$hasError = true;
 				}
 
 				if(preg_match('/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+/', $studentPhoneNo))
@@ -238,6 +242,7 @@
 				else 
 				{
 					echo "Phone number is invalid, it must only be numbers";
+					$hasError = true;
 				}
 
 				if(preg_match('/[0-9][0-9]+/', $studentAge))
@@ -247,11 +252,13 @@
 				else 
 				{
 					echo "Phone number is invalid, it must only be numbers and must be 2 digits";
+					$hasError = true;
 				}
 
 				if(!isset($tutorGender))
 				{
 					echo "Please select an option";
+					$hasError = true;
 				}
 				else {
 					echo "Option selected succesfully";
@@ -263,8 +270,25 @@
 				}
 				else {
 					echo "Please select a subject";
+					$hasError = true;
 				}
 
+				}
+
+				if($hasError == false){
+					$conn = connectToDatabase(); // dbName, username and password needs to be defined in databaseHelperFunctions.php
+
+					$sql = $conn->prepare(createInserQuery(/*table name goes here*/, /*column names go here. should be an array e.g array("col-1", "col-2", "col-3")*/, 6));
+				
+					// check if the data types are correct
+					$sql->bind_param("sssssss", $studentFullName, $studentEmail, $studentPhoneNo, $studentGender, $student_age, $studentSubjects);
+					if($sql->execute()){
+						echo "insert sucess: parents";
+					}else{
+						echo "Error: ". $sql->error();
+					}
+					$sql->close();
+					$conn->close();
 				}
 			?>
 		</main> <!-- End of main -->

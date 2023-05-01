@@ -167,6 +167,8 @@
 			</div>
 			
 			<?php 
+				require "databaseHelperFunctions.php";
+				$hasError = false;
 				$tutorFullName = $tutorEmail = $tutorPhoneNo = $tutorID = $tutorGender = $tutorExperienceLevel = $tutorSubjects = "";
 				if ($_SERVER["REQUEST_METHOD"] == "POST")
 				{
@@ -184,7 +186,7 @@
 					$field = htmlspecialchars($field);
 					return $field;
 					}
-				<!-- cleaning the data -->
+				// cleaning the data 
 				$tutorFullName = clean($tutorFullName);
 				$tutorEmail = clean($tutorEmail);
 				$tutorPhoneNo = clean($tutorPhoneNo);
@@ -192,13 +194,14 @@
 				$tutorExperienceLevel = clean($tutorExperienceLevel);
 				$tutorSubjects = clean($tutorSubjects);
 
-				<!-- Validation of data  -->
+				// Validation of data 
 				if(preg_match('/[a-zA-Z]+/', $tutorFullName))
 				{
 					echo "Tutor name formart is good";
 					}
 			   else{
 				   echo " Wrong format , It must only be letters";
+				   $hasError = true;
 				   }
 
 				if(filter_var($tutorEmail, FILTER_VALIDATE_EMAIL)) 
@@ -207,6 +210,7 @@
 				}
 				else {
 					echo "Email is invalid, please try again";
+					$hasError = true;
 				}
 
 				if(preg_match('/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+/', $tutorID))
@@ -216,6 +220,7 @@
 				else 
 				{
 					echo "Tutor ID is invalid, it must only be numbers";
+					$hasError = true;
 				}
 
 				if(preg_match('/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+/', $tutorPhoneNo))
@@ -225,11 +230,13 @@
 				else 
 				{
 					echo "Tutor phone number is invalid, it must only be numbers";
+					$hasError = true;
 				}
 
 				if(!isset($tutorExperienceLevel))
 				{
 					echo "Tutor experience level not chosen, please choose your experience level";
+					$hasError = true;
 				}
 				else {
 					echo "Experience level set succesfully";
@@ -241,19 +248,35 @@
 				}
 				else {
 					echo "Please select a subject";
+					$hasError = true;
 				}
 
 				if(!isset($tutorGender))
 				{
 					echo "Please select an option";
+					$hasError = true;
 				}
 				else {
 					echo "Option selected succesfully";
 				}
 
 				}
+				
+				if($hasError == false){
+					$conn = connectToDatabase(); // dbName, username and password needs to be defined in databaseHelperFunctions.php
 
-
+					$sql = $conn->prepare(createInserQuery(/*table name goes here*/, /*column names go here. should be an array e.g array("col-1", "col-2", "col-3")*/, 7));
+				
+					// check if the data types are correct
+					$sql->bind_param("sssssss", $tutorFullName, $tutorEmail, $tutorPhoneNo, $tutorID, $tutorGender, $tutorExperienceLevel, $tutorSubjects);
+					if($sql->execute()){
+						echo "insert sucess: tutors";
+					}else{
+						echo "Error: ". $sql->error();
+					}
+					$sql->close();
+					$conn->close();
+				}
 
 			?>
 		</main> <!-- End of main -->
