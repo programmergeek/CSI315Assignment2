@@ -185,12 +185,12 @@
 					return $field;
 					}
 				<!-- cleaning the data -->
-				clean($tutorFullName);
-				clean($tutorEmail);
-				clean($tutorPhoneNo);
-				clean($tutorID);
-				clean($tutorExperienceLevel);
-				clean($tutorSubjects);
+				$tutorFullName = clean($tutorFullName);
+				$tutorEmail = clean($tutorEmail);
+				$tutorPhoneNo = clean($tutorPhoneNo);
+				$tutorID = clean($tutorID);
+				$tutorExperienceLevel = clean($tutorExperienceLevel);
+				$tutorSubjects = clean($tutorSubjects);
 
 				<!-- Validation of data  -->
 				if(preg_match('/[a-zA-Z]+/', $tutorFullName))
@@ -252,6 +252,8 @@
 				}
 
 				}
+
+
 
 			?>
 		</main> <!-- End of main -->
