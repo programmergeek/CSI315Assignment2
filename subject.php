@@ -110,7 +110,7 @@
 				if($hasError == false){
 					$conn = connectToDatabase(); // dbName, username and password needs to be defined in databaseHelperFunctions.php
 
-					$sql = $conn->prepare(createInserQuery(/*table name goes here*/, /*column names go here. should be an array e.g array("col-1", "col-2", "col-3")*/, 2));
+					$sql = $conn->prepare(createInserQuery(/*table name goes here*/, /*column names go here. should be an array e.g array("col-1", "col-2", "col-3")*/));
 				
 					// check if the data types are correct
 					$sql->bind_param("ss", $subjectName, $subjectCode);
