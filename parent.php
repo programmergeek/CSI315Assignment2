@@ -32,8 +32,8 @@
 						</ul>
 					</li>
 					<li><a href="Assignment2.html">Subjects</a></li>
-					<li><a href="Assignment2.html">Search</a></li>
-					<li><a href="Assignment2.html">Timetable</a></li>
+					<li><a href="search.php">Search</a></li>
+					<li><a href="timetable.html">Timetable</a></li>
 				</ul>
 			</div>
 		</nav> <!-- End of nav -->
@@ -41,7 +41,10 @@
 		<!-- main -->
 		<main>
 			<div class="registration-form">
-				<form action="" method="">
+				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+					<!-- 
+						parent 
+					-->
 					<h2>Parent/ Guardian Registration</h2>
 					
 					<!-- fullname -->
@@ -64,30 +67,15 @@
 						<input type="text" placeholder="Phone number" name="parent_phone_no">					
 					</label> <!-- End of phone number-->
 					<br><br>
-					
-					<!-- gender -->
-					<label>
-						Gender:
-						<select>
-							<option value="" selected></option>
-							<option value="female">Female</option>
-							<option value="male">Male</option>
-							<option value="other">Other</option>
-						</select> 
-					</label> <!-- End of gender -->
-					<br><br>
-					
+				
 					<!-- relationship -->
 					<label>
 						Relationship to student: <br>
-						<input type="text" placeholder="Relation" name="relationship">					
+						<input type="text" placeholder="Relationship" name="relationship">					
 					</label> <!-- End of national id -->
 					<br><br>
-				</form>
-			</div>
+					<!-- End of parent -->
 			
-			<div class="registration-form">
-				<form action="" method="">
 					<h2>Student Registration</h2>
 					
 					<!-- fullname -->
@@ -129,56 +117,28 @@
 					</label> <!-- End of gender -->
 					<br><br>
 					
-					<!-- subjects -->
 					<label>
-						Subjects: <br>
-						<label>
-							<input type="checkbox" name="subjects[]" value="english language">					
-							English Language
-						</label> 
-				
-						<label>
-							<input type="checkbox" name="subjects[]" value="setswana">					
-							Setswana
-						</label>
-						
-						<label>
-							<input type="checkbox" name="subjects[]" value="mathematics">
-							Mathematics
-						</label>
-						<br>
-
-						<label>
-							<input type="checkbox" name="subjects[]" value="chemistry">							
-							Chemistry
-						</label> 
-
-						<label>
-							<input type="checkbox" name="subjects[]" value="physics">					
-							Physics
-						</label>
-						
-						<label>
-							<input type="checkbox" name="subjects[]" value="biology">
-							Biology
-						</label>
-						<br>
-
-						<label>
-							<input type="checkbox" name="subjects[]" value="computer studies">							
-							Computer Studies
-						</label> 
-
-						<label>
-							<input type="checkbox" name="subjects[]" value="accounting">					
-							Accounting 
-						</label> 
-						
-						<label>
-							<input type="checkbox" name="subjects[]" value="statistics">					
-							Statistics
-						</label> 
-					</label> <!-- End of subjects -->
+						Subject:
+						<select name ="subjects">
+							<option value="" selected></option>
+							<option value="eng">English</option>
+							<option value="sets">Setswana</option>
+							<option value="math">Mathematics</option>
+							<option value="chem">Chemistry</option>
+							<option value="phy">Physics</option>
+							<option value="bio">Biology</option>
+							<option value="cs">Computer Studies</option>
+							<option value="acc">Accounting</option>
+							<option value="stats">Statistics</option>
+						</select> 
+					</label> <!-- End of gender -->
+					<br><br>
+					
+					<label>
+					Upload student past school reports
+					<br><br>
+					<input type="file" id="docpicker" name="doc_type" accept=".doc,.docx,.xml,application/msword,application/pdf" />
+					</label>
 					<br><br>
 					
 					<!-- sumbit -->
@@ -189,107 +149,155 @@
 			</div>
 			
 			<?php
-			require "databaseHelperFunctions.php";
-			$hasError = false;
-			$studentFullName = $studentEmail = $studentPhoneNo = $studentAge = $studentGender = $studentSubjects = "";
 
-				if ($_SERVER["REQUEST_METHOD"] == "POST")
-				{
-					$studentFullName = $_POST["student_full_name"];
-					$studentEmail = $_POST["student_email"];
-					$studentPhoneNo = $_POST["student_phone_no"];
-					$studentAge = $_POST["student_age"];
-					$studentGender = $_POST["selected_gender"];
-					$studentSubjects = $_POST["subjects[]"];
-
+				$parentId = $parentFullName = $parentEmail = $parentPhoneNo = $parentAge = $relation = "";
+				$studentId = $studentFullName = $studentEmail = $studentPhoneNo = $studentAge = 
+					$studentGender = $studentSubjects = $report = "";
+			
+				# cleaning function 
 				function clean($field) {
 					$field = trim($field);
 					$field = stripslashes($field);
 					$field = htmlspecialchars($field);
 					return $field;
-					}
-				// cleaning the data 
-				$studentFullName = clean($studentFullName);
-				$studentEmail = clean($studentEmail);
-				$studentPhoneNo = clean($studentPhoneNo);
-				$student_age = clean($student_age);
-				$studentGender = clean($studentGender);
-				$studentSubjects = clean($studentSubjects);
-
-				// Validation of data  
-				if(preg_match('/[a-zA-Z]+/', $studentFullName))
-				{
-					echo "Student name formart is good";
-					}
-			   else{
-				   echo " Wrong format , It must only be letters";
-				   $hasError = true;
-				   }
-
-				if(filter_var($studentEmail, FILTER_VALIDATE_EMAIL)) 
-				{
-					echo "Email valid";
 				}
-				else {
-					echo "Email is invalid, please try again";
-					$hasError = true;
-				}
-
-				if(preg_match('/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+/', $studentPhoneNo))
-				{
-					echo "Phone number is valid";
-				}
-				else 
-				{
-					echo "Phone number is invalid, it must only be numbers";
-					$hasError = true;
-				}
-
-				if(preg_match('/[0-9][0-9]+/', $studentAge))
-				{
-					echo "Age is valid";
-				}
-				else 
-				{
-					echo "Phone number is invalid, it must only be numbers and must be 2 digits";
-					$hasError = true;
-				}
-
-				if(!isset($tutorGender))
-				{
-					echo "Please select an option";
-					$hasError = true;
-				}
-				else {
-					echo "Option selected succesfully";
-				}
-
-				if(filter_has_var(INPUT_POST, 'subjects[]'))
-				{
-					echo "Subject chosen";
-				}
-				else {
-					echo "Please select a subject";
-					$hasError = true;
-				}
-
-				}
-
-				if($hasError == false){
-					$conn = connectToDatabase(); // dbName, username and password needs to be defined in databaseHelperFunctions.php
-
-					$sql = $conn->prepare(createInsertQuery(/*table name goes here*/, /*column names go here. should be an array e.g array("col-1", "col-2", "col-3")*/));
 				
-					// check if the data types are correct
-					$sql->bind_param("sssssss", $studentFullName, $studentEmail, $studentPhoneNo, $studentGender, $student_age, $studentSubjects);
-					if($sql->execute()){
-						echo "insert sucess: parents";
-					}else{
-						echo "Error: ". $sql->error();
+				if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+					# parent input
+					$parentFullName = clean($_POST["parent_full_name"]);
+					$parentEmail = clean($_POST["parent_email"]);
+					$parentPhoneNo = clean($_POST["parent_phone_no"]);
+					$relation = clean($_POST["relationship"]);
+
+					# student input
+					$studentFullName = clean($_POST["student_full_name"]);
+					$studentEmail = clean($_POST["student_email"]);
+					$studentPhoneNo = clean($_POST["student_phone_no"]);
+					$studentAge = clean($_POST["student_age"]);
+					$studentGender = clean($_POST["selected_gender"]);
+					$studentSubjects = clean($_POST["subjects"]);
+					$report = clean($_POST["doc_type"]);
+					
+
+					# parent input validation
+					if (preg_match('/[a-zA-Z]+/', $parentFullName)) {
+						echo "Parent name formart is good";
+					} else {
+					   echo " Wrong format , It must only be letters";
 					}
-					$sql->close();
-					$conn->close();
+
+					if (filter_var($parentEmail, FILTER_VALIDATE_EMAIL)) {
+						echo "Email valid";
+					} else {
+						echo "Email is invalid, please try again";
+					}
+
+					if (preg_match('/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+/', $parentPhoneNo)) {
+						echo "Phone number is valid";
+					} else {
+						echo "Phone number is invalid, it must only be numbers";
+					}
+				
+					if (preg_match('/[a-zA-Z]+/', $relation)) {
+						echo "Relationship formart is good";
+					} else {
+					   echo " Wrong format , It must only be letters";
+				    }
+
+				    # student input validation
+					if (preg_match('/[a-zA-Z]+/', $studentFullName)) {
+						echo "Student name formart is good";
+					} else {
+					   echo " Wrong format , It must only be letters";
+					}
+
+					if (filter_var($studentEmail, FILTER_VALIDATE_EMAIL)) {
+						echo "Email valid";
+					} else {
+						echo "Email is invalid, please try again";
+					}
+
+					if (preg_match('/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+/', $studentPhoneNo)) {
+						echo "Phone number is valid";
+					} else {
+						echo "Phone number is invalid, it must only be numbers";
+					}
+
+					if ( (preg_match('/[0-9][0-9]/', $studentAge) ) )  {
+						echo "Age is valid";
+					} else {
+						echo "Age is invalid, it must only be numbers and must be 2 digits";
+					}
+
+					if (!isset($studentGender)) {
+						echo "Please select an option";
+					} else {
+						echo "Option selected succesfully";
+					}
+					if (!isset($studentSubjects)) {
+						echo "Please select a subject";
+					} else {
+						echo "subject selected succesfully";
+					}
+		
+					// if(filter_has_var(INPUT_POST, 'subjects[]'))
+					// {
+						// echo "Subject chosen";
+					// }
+					// else {
+						// echo "Please select a subject";
+					// }
+			
 				}
+			
+				require "dbconnect.php";
+
+				$conn = connectToDatabase();
+
+				$parentId = rand(1000, 9999);		# generating 4 digit parent id
+				$studentId = rand(100, 999);		# generating 3 digit student id 
+				
+				$stmt = $conn->prepare("INSERT INTO A2parent (pid, full_name, email, phone_no, relationship, sid)
+										VALUES (?, ?, ?, ?, ?, ?)");
+				
+				$stmt->bind_param("issisi", $tempParentId, $tempParentName, $tempParentEmail, $tempParentNo, $tempRelationship, $tempStudentId);
+				
+				$tempParentId = $parentId;
+				$tempParentName = $parentFullName;
+				$tempParentEmail = $parentEmail;
+				$tempParentNo = $parentPhoneNo;
+				$tempRelationship = $relation;
+				$tempStudentId = $studentId;
+
+				if ($stmt->execute()){
+					echo("record inserted");
+				} else {
+					echo "Error inserting record:" . $stmt->error;  // print any error messages 
+				}
+				
+				$stmt = $conn->prepare("INSERT INTO A2student (sid, full_name, email, phone_no, age, gender, subject, report, pid)
+										VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+				
+				$stmt->bind_param("issiisssi", $tempStudentId, $tempStudentName, $tempStudentEmail, $tempStudentPhoneNo, $tempAge, $tempGender, $tempSubject, $tempReport, $tempParentId);
+				
+				$tempStudentId = $studentId;
+				$tempStudentName = $studentFullName;
+				$tempStudentEmail = $studentEmail;
+				$tempStudentPhoneNo = $studentPhoneNo;
+				$tempAge = $studentAge;
+				$tempGender = $studentGender;
+				$tempSubject = $studentSubjects;
+				$tempReport = $report;
+				$tempParentId = $parentId;
+				
+				if ($stmt->execute()) {
+					echo("record inserted");
+				} else {
+					echo "Error inserting record: " . $stmt->error;  //print any error messages 
+				}
+
+				$stmt->close();
 			?>
 		</main> <!-- End of main -->
 		

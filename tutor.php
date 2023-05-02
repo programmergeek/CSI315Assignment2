@@ -32,8 +32,8 @@
 						</ul>
 					</li>
 					<li><a href="Assignment2.html">Subjects</a></li>
-					<li><a href="Assignment2.html">Search</a></li>
-					<li><a href="Assignment2.html">Timetable</a></li>
+					<li><a href="search.php">Search</a></li>
+					<li><a href="timetable.html">Timetable</a></li>
 				</ul>
 			</div>
 		</nav> <!-- End of nav -->
@@ -41,13 +41,14 @@
 		<!-- main -->
 		<main>
 			<div class="registration-form">
-				<form action="" method="">
+				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 					<h2>Tutor Registration</h2>
 					
 					<!-- fullname -->
 					<label>
 						Full name: <br>
-						<input type="text" placeholder="Full name" name="tutor_full_name" required>					
+						<input type="text" placeholder="Full name" name="tutor_full_name" required>	
+						<span><?php echo $tutorFullName; ?></span>				
 					</label> <!-- End of full name -->
 					<br><br>
 					
@@ -61,7 +62,7 @@
 					<!-- phone_number -->
 					<label>
 						Phone number: <br>
-						<input type="text" placeholder="Phone number" name="tutor_phone_no">					
+						<input type="number" placeholder="Phone number" name="tutor_phone_no">					
 					</label> <!-- End of phone number-->
 					<br><br>
 					
@@ -109,54 +110,27 @@
 					
 					<!-- subjects -->
 					<label>
-						Subjects: <br>
-						<label>
-							<input type="checkbox" name="subjects[]" value="english language">					
-							English Language
-						</label> 
-				
-						<label>
-							<input type="checkbox" name="subjects[]" value="setswana">					
-							Setswana
-						</label>
-						
-						<label>
-							<input type="checkbox" name="subjects[]" value="mathematics">
-							Mathematics
-						</label>
-						<br>
-
-						<label>
-							<input type="checkbox" name="subjects[]" value="chemistry">							
-							Chemistry
-						</label> 
-
-						<label>
-							<input type="checkbox" name="subjects[]" value="physics">					
-							Physics
-						</label>
-						
-						<label>
-							<input type="checkbox" name="subjects[]" value="biology">
-							Biology
-						</label>
-						<br>
-
-						<label>
-							<input type="checkbox" name="subjects[]" value="computer studies">							
-							Computer Studies
-						</label> 
-
-						<label>
-							<input type="checkbox" name="subjects[]" value="accounting">					
-							Accounting 
-						</label> 
-						
-						<label>
-							<input type="checkbox" name="subjects[]" value="statistics">					
-							Statistics
-						</label> 
-					</label> <!-- End of subjects -->
+						Subject:
+						<select name ="subjects">
+							<option value="" selected></option>
+							<option value="eng">English</option>
+							<option value="sets">Setswana</option>
+							<option value="math">Mathematics</option>
+							<option value="chem">Chemistry</option>
+							<option value="phy">Physics</option>
+							<option value="bio">Biology</option>
+							<option value="cs">Computer Studies</option>
+							<option value="acc">Accounting</option>
+							<option value="stats">Statistics</option>
+						</select> 
+					</label>
+					<br><br>
+					
+					<label>
+					Upload Copy of Omang
+					<br><br>
+					<input type="file" id="docpicker" name="doc_type" accept=".doc,.docx,.xml,application/msword,application/pdf" />
+					</label>
 					<br><br>
 					
 					<!-- sumbit -->
@@ -167,117 +141,100 @@
 			</div>
 			
 			<?php 
-				require "databaseHelperFunctions.php";
-				$hasError = false;
-				$tutorFullName = $tutorEmail = $tutorPhoneNo = $tutorID = $tutorGender = $tutorExperienceLevel = $tutorSubjects = "";
-				if ($_SERVER["REQUEST_METHOD"] == "POST")
-				{
-					$tutorFullName = $_POST["tutor_full_name"];
-					$tutorEmail = $_POST["tutor_email"];
-					$tutorPhoneNo = $_POST["tutor_phone_no"];
-					$tutorID = $_POST["tutor_national_id"];
-					$tutorGender = $_POST["selected_gender"];
-					$tutorExperienceLevel = $_POST["experience_level"];
-					$tutorSubjects = $_POST["subjects[]"];
-
+				$tutorFullName = $tutorEmail = $tutorPhoneNo = $tutorId = $tutorGender = $tutorExperienceLevel = $tutorSubjects = $omang = "";
+				
+				# cleaning function
 				function clean($field) {
 					$field = trim($field);
 					$field = stripslashes($field);
 					$field = htmlspecialchars($field);
 					return $field;
+				}
+				if ($_SERVER["REQUEST_METHOD"] == "POST") {
+					if (empty(clean($_POST["tutor_full_name"]))) {
+						$tutorNameError = Tutor name is required";
+					} else {
+						$tutorFullName = clean($_POST["tutor_full_name"]);
 					}
-				// cleaning the data 
-				$tutorFullName = clean($tutorFullName);
-				$tutorEmail = clean($tutorEmail);
-				$tutorPhoneNo = clean($tutorPhoneNo);
-				$tutorID = clean($tutorID);
-				$tutorExperienceLevel = clean($tutorExperienceLevel);
-				$tutorSubjects = clean($tutorSubjects);
+					$tutorEmail = clean($_POST["tutor_email"]);
+					$tutorPhoneNo = clean($_POST["tutor_phone_no"]);
+					$tutorId = clean($_POST["tutor_national_id"]);
+					$tutorGender = clean($_POST["selected_gender"]);
+					$tutorExperienceLevel = clean($_POST["experience_level"]);
+					$tutorSubjects = clean($_POST["subjects"]);
+					$omang = clean($_POST["doc_type"]);
 
-				// Validation of data 
-				if(preg_match('/[a-zA-Z]+/', $tutorFullName))
-				{
-					echo "Tutor name formart is good";
+					# tutor input validation 
+					if (preg_match('/[a-zA-Z]+/', $tutorFullName)) {
+						echo "Tutor name formart is good";
+					} else {
+					echo " Wrong format , It must only be letters";
 					}
-			   else{
-				   echo " Wrong format , It must only be letters";
-				   $hasError = true;
-				   }
 
-				if(filter_var($tutorEmail, FILTER_VALIDATE_EMAIL)) 
-				{
-					echo "Email valid";
-				}
-				else {
-					echo "Email is invalid, please try again";
-					$hasError = true;
-				}
+					if (filter_var($tutorEmail, FILTER_VALIDATE_EMAIL)) {
+						echo "Email valid";
+					} else {
+						echo "Email is invalid, please try again";
+					}
 
-				if(preg_match('/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+/', $tutorID))
-				{
-					echo "Tutor ID is valid";
-				}
-				else 
-				{
-					echo "Tutor ID is invalid, it must only be numbers";
-					$hasError = true;
-				}
+					if (preg_match('/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+/', $tutorPhoneNo)) {
+						echo "Tutor phone number is valid";
+					} else {
+						echo "Tutor phone number is invalid, it must only be numbers";
+					}
 
-				if(preg_match('/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+/', $tutorPhoneNo))
-				{
-					echo "Tutor phone number is valid";
-				}
-				else 
-				{
-					echo "Tutor phone number is invalid, it must only be numbers";
-					$hasError = true;
-				}
+					if (preg_match('/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+/', $tutorId)) {
+						echo "Tutor ID is valid";
+					} else {
+						echo "Tutor ID is invalid, it must only be numbers";
+					}
 
-				if(!isset($tutorExperienceLevel))
-				{
-					echo "Tutor experience level not chosen, please choose your experience level";
-					$hasError = true;
-				}
-				else {
-					echo "Experience level set succesfully";
-				}
+					if (!isset($tutorGender)) {
+						echo "Please select an option";
+					} else {
+						echo "Option selected succesfully";
+					}
 
-				if(filter_has_var(INPUT_POST, 'subjects[]'))
-				{
-					echo "Subject chosen";
-				}
-				else {
-					echo "Please select a subject";
-					$hasError = true;
-				}
+					if (!isset($tutorExperienceLevel)) {
+						echo "Tutor experience level not chosen, please choose your experience level";
+					} else {
+						echo "Experience level set succesfully";
+					}
 
-				if(!isset($tutorGender))
-				{
-					echo "Please select an option";
-					$hasError = true;
-				}
-				else {
-					echo "Option selected succesfully";
-				}
-
+					if (!isset($tutorSubjects)) {
+						echo "Please select Subject";
+					} else {
+						echo "Subject selected succesfully";
+					}
 				}
 				
-				if($hasError == false){
-					$conn = connectToDatabase(); // dbName, username and password needs to be defined in databaseHelperFunctions.php
+				require "dbconnect.php";
 
-					$sql = $conn->prepare(createInsertQuery(/*table name goes here*/, /*column names go here. should be an array e.g array("col-1", "col-2", "col-3")*/));
+				$conn = connectToDatabase();
+
+				$tutorId = rand(10, 99);		# generating 2 digit tutor id
 				
-					// check if the data types are correct
-					$sql->bind_param("sssssss", $tutorFullName, $tutorEmail, $tutorPhoneNo, $tutorID, $tutorGender, $tutorExperienceLevel, $tutorSubjects);
-					if($sql->execute()){
-						echo "insert sucess: tutors";
-					}else{
-						echo "Error: ". $sql->error();
-					}
-					$sql->close();
-					$conn->close();
+				$stmt = $conn->prepare("INSERT INTO A2tutor (full_name, email, phone_no,national_id, gender, experience, subjects, omang_copy)
+										VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+				
+				$stmt->bind_param("ssiissss", $tempTutorName, $tempTutorEmail, $tempTutorNo, $tempNationalId, $tempGender, $tempExperience, $tempSubject, $tempOmangCopy);
+				
+				$tempTutorName = $tutorFullName;
+				$tempTutorEmail = $tutorEmail;
+				$tempTutorNo = $tutorPhoneNo;
+				$tempNationalId = $tutorId;
+				$tempGender = $tutorGender;
+				$tempExperience = $tutorExperienceLevel;
+				$tempSubject = $tutorSubjects;
+				$tempOmangCopy = $omang;
+				
+				if ($stmt->execute()) {
+					echo("record inserted");
+				} else {
+					echo "Error inserting record: " . $stmt->error;  //print any error messages 
 				}
 
+				$stmt->close();
 			?>
 		</main> <!-- End of main -->
 		
